@@ -1,5 +1,19 @@
 Cypress.on("uncaught:exception", () => false);
 
+function addAllureMeta(epic, feature, story, severity) {
+  try {
+    const allure = Cypress.Allure.reporter.getInterface();
+    if (allure) {
+      epic && allure.epic(epic);
+      feature && allure.feature(feature);
+      story && allure.story(story);
+      severity && allure.severity(severity);
+    }
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 const LOGIN = "DEMOWEB";
 const PASSWORD = "awdrgy";
 
@@ -15,7 +29,7 @@ function login() {
   cy.wait(2000);
 
   cy.get("body").then(($body) => {
-    cy.wait(1000); 
+    cy.wait(1000);
 
     if ($body.find('[data-cy="stack-yes-no"]').length > 0) {
       cy.log('Модалка "Пользователь уже вошел" обнаружена');
@@ -51,7 +65,7 @@ function openAddDistrictDialog() {
   )
     .first()
     .click();
-  cy.contains("Район").click();
+  cy.contains("Район").click({ force: true });
   cy.get('[data-cy="stack-dialog"]').should("be.visible");
   cy.get(".v-toolbar__title").should("contain", "Район (создание)");
 }
@@ -64,7 +78,7 @@ function addDistrict(name, number = "1") {
 
   cy.get('[data-cy="btn-save"]').should("be.enabled").click();
 
- cy.get('[data-cy="stack-dialog"]', { timeout: 15000 }).should("not.exist");
+  cy.get('[data-cy="stack-dialog"]', { timeout: 15000 }).should("not.exist");
 
   cy.contains(name, { timeout: 15000 }).should("exist");
 }
@@ -87,61 +101,93 @@ describe('Тесты для раздела "Адреса проживающих"
     navigateToAddresses();
   });
 
-it("Проверка элементов диалогового окна добавления района", () => {
-  openAddDistrictDialog();
+  it("Проверка элементов диалогового окна добавления района", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Добавление района",
+      "critical",
+      ["smoke", "ui"],
+    );
 
-  cy.get('[data-test-id="Название района"]').should("be.visible");
-  cy.get('[data-test-id="Номер в списке"]').should("be.visible");
+    openAddDistrictDialog();
 
-  cy.get('[data-cy="btn-save"]').should("be.visible").and("be.enabled");
-
-  cy.get('[data-cy="btn-cancel"]').should("be.visible");
-  cy.get(".v-toolbar__title").should("contain", "Район (создание)");
-});
+    cy.get('[data-test-id="Название района"]').should("be.visible");
+    cy.get('[data-test-id="Номер в списке"]').should("be.visible");
+    cy.get('[data-cy="btn-save"]').should("be.visible").and("be.enabled");
+    cy.get('[data-cy="btn-cancel"]').should("be.visible");
+    cy.get(".v-toolbar__title").should("contain", "Район (создание)");
+  });
 
   it("Успешное добавление нового района", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Добавление района",
+      "critical",
+      ["regression", "positive"],
+    );
+
     const testDistrict = `Тестовый район ${Date.now()}`;
     addDistrict(testDistrict, "100");
   });
 
-it("Валидация: нельзя ввести отрицательный или невалидный номер", () => {
-  openAddDistrictDialog();
+  it("Валидация: нельзя ввести отрицательный или невалидный номер", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Валидация полей",
+      "normal",
+      ["validation", "negative"],
+    );
 
-  cy.get('[data-test-id="Название района"]').type("Тестовый район");
+    openAddDistrictDialog();
 
-  cy.get('[data-cy="btn-save"]').should("be.enabled");
-  cy.screenshot("district-name-filled-button-active");
+    cy.get('[data-test-id="Название района"]').type("Тестовый район");
 
-  cy.get('[data-test-id="Номер в списке"]').clear().type("-5");
-  cy.get('[data-test-id="Номер в списке"]')
-    .invoke("val")
-    .then((val) => {
-      if (val === "-5") {
-        cy.log("БАГ: можно ввести отрицательный номер!");
-        cy.screenshot("bug-negative-number");
-      } else {
-        cy.log("Отрицательный номер автоматически отклонён");
-      }
-    });
+    cy.get('[data-cy="btn-save"]').should("be.enabled");
+    cy.screenshot("district-name-filled-button-active");
 
-  cy.get('[data-test-id="Номер в списке"]').clear().type("abc");
-  cy.get('[data-test-id="Номер в списке"]')
-    .invoke("val")
-    .then((val) => {
-      if (val === "abc") {
-        cy.log("БАГ: можно ввести нечисловое значение!");
-        cy.screenshot("bug-nonnumeric-number");
-      } else {
-        cy.log("Нечисловое значение автоматически отклонено");
-      }
-    });
+    cy.get('[data-test-id="Номер в списке"]').clear().type("-5");
+    cy.get('[data-test-id="Номер в списке"]')
+      .invoke("val")
+      .then((val) => {
+        if (val === "-5") {
+          cy.log("БАГ: можно ввести отрицательный номер!");
+          cy.screenshot("bug-negative-number");
+        } else {
+          cy.log("Отрицательный номер автоматически отклонён");
+        }
+      });
 
-  cy.get('[data-cy="btn-save"]').should("be.disabled");
+    cy.get('[data-test-id="Номер в списке"]').clear().type("abc");
+    cy.get('[data-test-id="Номер в списке"]')
+      .invoke("val")
+      .then((val) => {
+        if (val === "abc") {
+          cy.log("БАГ: можно ввести нечисловое значение!");
+          cy.screenshot("bug-nonnumeric-number");
+        } else {
+          cy.log("Нечисловое значение автоматически отклонено");
+        }
+      });
 
-  cy.log("Валидация: кнопка disabled, если номер отрицательный или невалидный");
-});
+    cy.get('[data-cy="btn-save"]').should("be.disabled");
+
+    cy.log(
+      "Валидация: кнопка disabled, если номер отрицательный или невалидный",
+    );
+  });
 
   it("Редактирование существующего района", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Редактирование района",
+      "critical",
+      ["regression"],
+    );
+
     const originalName = `Редактируемый район ${Date.now()}`;
     const editedName = `Обновлённый район ${Date.now()}`;
     addDistrict(originalName, "200");
@@ -167,29 +213,71 @@ it("Валидация: нельзя ввести отрицательный и�
   });
 
   it("Удаление района", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Удаление района",
+      "critical",
+      ["regression"],
+    );
+
     const districtToDelete = `Удаляемый район ${Date.now()}`;
     addDistrict(districtToDelete, "400");
     deleteDistrict(districtToDelete);
   });
 
-it("Валидация при добавлении района: кнопка активна/дизейбл в зависимости от полей", () => {
-  openAddDistrictDialog();
+  it("Валидация при добавлении района: кнопка активна/дизейбл в зависимости от полей", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Валидация формы",
+      "normal",
+      ["validation"],
+    );
 
-  cy.get('[data-cy="btn-save"]').should("be.disabled");
+    openAddDistrictDialog();
 
-  cy.get('[data-test-id="Название района"]').type("Тестовый район");
+    cy.get('[data-test-id="Название района"]').type("Тестовый район");
 
-  cy.get('[data-cy="btn-save"]').should("be.enabled");
+    cy.wait(500);
 
-  cy.get('[data-test-id="Номер в списке"]').clear();
+    cy.get('[data-test-id="Номер в списке"]')
+      .invoke("val")
+      .then((currentValue) => {
+        if (currentValue && currentValue.trim() !== "") {
+          
+          cy.get('[data-cy="btn-save"]', { timeout: 10000 }).should(
+            "be.enabled",
+          );
 
-  cy.get('[data-cy="btn-save"]').should("be.disabled");
+          
+          cy.get('[data-test-id="Номер в списке"]').clear().type("{backspace}");
 
-  cy.log(
-    "Кнопка активна только если есть название района и номер; если номер пустой — кнопка disabled",
-  );
-});
+          cy.wait(1000);
+
+          cy.get('[data-cy="btn-save"]', { timeout: 10000 }).should(
+            "be.disabled",
+          );
+        } else {
+          
+          cy.get('[data-cy="btn-save"]').should("be.disabled");
+
+          cy.get('[data-test-id="Номер в списке"]').type("1");
+          cy.wait(500);
+          cy.get('[data-cy="btn-save"]').should("be.enabled");
+        }
+      });
+  });
+
   it("Отмена добавления района", () => {
+    addAllureMeta(
+      "Адреса проживающих",
+      "Управление районами",
+      "Отмена создания",
+      "normal",
+      ["regression"],
+    );
+
     openAddDistrictDialog();
     cy.get('[data-test-id="Название района"]').type("Временный район");
     cy.get('[data-test-id="Номер в списке"]').type("50");

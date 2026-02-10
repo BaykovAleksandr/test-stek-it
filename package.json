@@ -4,13 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:allure": "cypress run --env allure=true",
+    "allure:generate": "allure generate allure-results --clean",
+    "allure:open": "allure open",
+    "allure:report": "npm run test:allure && npm run allure:generate && npm run allure:open",
+    "allure:clear": "rm -rf allure-results allure-report"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@shelex/cypress-allure-plugin": "^2.41.2",
+    "allure-commandline": "^2.36.0",
     "cypress": "^15.10.0"
   }
 }
