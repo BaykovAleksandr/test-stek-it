@@ -87,3 +87,5 @@ npm run allure:report	Полный цикл с генерацией и откр�
 
 
 <img width="1920" height="1080" alt="allure1" src="https://github.com/user-attachments/assets/f7314fae-ff33-4ab7-aad5-4caa5a8676b4" />
+<img width="1920" height="1080" alt="allure2" src="https://github.com/user-attachments/assets/c7d6589d-93fc-4d07-9533-2152bec8c360" />
+<img width="1920" height="1080" alt="allure3" src="https://github.com/user-attachments/assets/73c91ef3-4d3d-41fd-9abe-68bdf5135b7c" />
