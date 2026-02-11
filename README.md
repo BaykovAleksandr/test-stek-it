@@ -84,3 +84,6 @@ npm run allure:report	Полный цикл с генерацией и откр�
 ⚠️ Валидация полей формы
 
 🖥️ Проверка UI элементов
+
+
+<img width="1920" height="1080" alt="allure1" src="https://github.com/user-attachments/assets/f7314fae-ff33-4ab7-aad5-4caa5a8676b4" />
