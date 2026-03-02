@@ -5,7 +5,7 @@ import DistrictDialog from "../support/pageObjects/DistrictDialog";
 
 Cypress.on("uncaught:exception", () => false);
 
-function addAllureMeta(epic, feature, story, severity, tags) {
+function addAllureMeta(epic, feature, story, severity) {
   try {
     const allure = Cypress.Allure.reporter.getInterface();
     if (allure) {

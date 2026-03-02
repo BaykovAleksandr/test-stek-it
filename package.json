@@ -20,7 +20,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "./node_modules/.bin/eslint --fix",
       "prettier --write"
     ]
   },
@@ -35,7 +35,7 @@
     "cypress": "^15.10.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-cypress": "^3.0.0",
+    "eslint-plugin-cypress": "^3.6.0",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^15.0.0",
     "husky": "^9.1.7",

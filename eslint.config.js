@@ -1,6 +1,6 @@
 import globals from "globals";
 import pluginJs from "@eslint/js";
-import cypress from "eslint-plugin-cypress";
+import cypress from "eslint-plugin-cypress/flat";
 import prettier from "eslint-plugin-prettier";
 import eslintConfigPrettier from "eslint-config-prettier";
 
@@ -21,6 +21,8 @@ export default [
         ...globals.mocha,
         cy: "readonly",
         Cypress: "readonly",
+        expect: "readonly",
+        assert: "readonly",
       },
     },
     rules: {
