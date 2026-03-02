@@ -15,7 +15,14 @@
     "lint:cypress": "eslint cypress/**/*.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint:format": "npm run lint && npm run format:check"
+    "lint:format": "npm run lint && npm run format:check",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -31,6 +38,8 @@
     "eslint-plugin-cypress": "^3.0.0",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^15.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.1",
     "prettier": "^3.8.1"
   }
 }
