@@ -9,15 +9,22 @@
     "allure:generate": "allure generate allure-results --clean",
     "allure:open": "allure open",
     "allure:report": "npm run test:allure && npm run allure:generate && npm run allure:open",
-    "allure:clear": "rm -rf allure-results allure-report"
+    "allure:clear": "rm -rf allure-results allure-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:cypress": "eslint cypress/**/*.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "@shelex/cypress-allure-plugin": "^2.41.2",
     "allure-commandline": "^2.36.0",
-    "cypress": "^15.10.0"
+    "cypress": "^15.10.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
+    "@eslint/js": "^9.0.0",
+    "eslint-plugin-cypress": "^3.0.0"
   }
 }
