@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+coverage/
+cypress/fixtures/
+cypress/videos/
+cypress/screenshots/
+*.min.js
+package-lock.json

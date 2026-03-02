@@ -12,19 +12,25 @@
     "allure:clear": "rm -rf allure-results allure-report",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:cypress": "eslint cypress/**/*.js"
+    "lint:cypress": "eslint cypress/**/*.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:format": "npm run lint && npm run format:check"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@shelex/cypress-allure-plugin": "^2.41.2",
     "allure-commandline": "^2.36.0",
     "cypress": "^15.10.0",
     "eslint": "^9.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^3.0.0",
+    "eslint-plugin-prettier": "^5.5.5",
     "globals": "^15.0.0",
-    "@eslint/js": "^9.0.0",
-    "eslint-plugin-cypress": "^3.0.0"
+    "prettier": "^3.8.1"
   }
 }
