@@ -1,12 +1,11 @@
-const LOGIN = "DEMOWEB";
-const PASSWORD = "awdrgy";
-
 class LoginPage {
   visit() {
     cy.visit("/");
   }
 
   login() {
+    const LOGIN = Cypress.env("LOGIN");
+    const PASSWORD = Cypress.env("PASSWORD");
     this.visit();
 
     cy.get('[data-cy="login"]', { timeout: 10000 }).should("be.visible").type(LOGIN);
