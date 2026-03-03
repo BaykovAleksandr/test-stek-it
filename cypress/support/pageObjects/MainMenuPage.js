@@ -1,6 +1,6 @@
 class MainMenuPage {
   navigateToAddresses() {
-    cy.get('[data-test-id="Адресный фонд"]').click();
+    cy.get('[data-test-id="Адресный фонд"]', { timeout: 30000 }).should("be.visible").click();
     cy.contains("Адреса проживающих").click();
     cy.contains("Адреса проживающих", { timeout: 15000 }).should("be.visible");
   }
