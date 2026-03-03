@@ -20,6 +20,7 @@ jobs:
           CYPRESS_LOGIN: ${{ secrets.CYPRESS_LOGIN }}
           CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
           CYPRESS_pageLoadTimeout: 300000
+          CYPRESS_defaultCommandTimeout: 30000
           CYPRESS_viewportWidth: 1280
           CYPRESS_viewportHeight: 720
           CYPRESS_chromeWebSecurity: false
