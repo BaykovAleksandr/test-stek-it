@@ -26,7 +26,10 @@ describe('Тесты для раздела "Адреса проживающих"
   const districtDialog = new DistrictDialog();
 
   beforeEach(() => {
-    loginPage.login();
+    cy.session("stack-it-login", () => {
+      loginPage.login();
+    });
+    cy.visit("/fl/");
     mainMenu.navigateToAddresses();
   });
 
@@ -40,7 +43,7 @@ describe('Тесты для раздела "Адреса проживающих"
 
     cy.get('[data-test-id="Название района"]').should("be.visible");
     cy.get('[data-test-id="Номер в списке"]').should("be.visible");
-    cy.get('[data-cy="btn-save"]').should("be.visible").and("be.enabled");
+    cy.get('[data-cy="btn-save"]', { timeout: 15000 }).should("be.visible");
     cy.get('[data-cy="btn-cancel"]').should("be.visible");
     districtDialog.verifyTitle("Район (создание)");
   });

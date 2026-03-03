@@ -16,7 +16,10 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:format": "npm run lint && npm run format:check",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start": "node server.js",
+    "test:ci": "start-server-and-test start http://localhost:3000 cy:run",
+    "cy:run": "cypress run --env allure=true"
   },
   "lint-staged": {
     "*.js": [
@@ -40,6 +43,7 @@
     "globals": "^15.0.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.3.1",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "start-server-and-test": "^2.1.5"
   }
 }
